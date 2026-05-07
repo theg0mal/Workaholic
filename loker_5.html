@@ -2382,6 +2382,11 @@ function showPage(name) {
   window.scrollTo(0,0);
 }
 
+function submitContactForm() {
+  document.getElementById('contactFormContent').style.display = 'none';
+  document.getElementById('contactSuccessMsg').style.display = 'block';
+}
+
 function doLogin() {
   var email = document.getElementById('login-email').value.trim();
   var pass  = document.getElementById('login-pass').value;
@@ -2745,6 +2750,244 @@ function doLogout() {
 <div class="cp-wrap" id="cp-wrap"></div>
 </div>
 
+<!-- CONTACT PAGE -->
+<div id="page-contact" class="page">
+<style>
+  .contact-wrap {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 5vw;
+    background: var(--cream);
+  }
+  .contact-card {
+    background: #ffffff;
+    border-radius: 24px;
+    overflow: hidden;
+    width: 100%;
+    max-width: 820px;
+    display: grid;
+    grid-template-columns: 1fr 1.6fr;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.15);
+  }
+  .contact-panel-left {
+    background: #1a7a3c;
+    padding: 48px 36px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+  }
+  .contact-panel-left::before {
+    content: '';
+    position: absolute;
+    bottom: -60px; right: -60px;
+    width: 220px; height: 220px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.06);
+  }
+  .contact-panel-left::after {
+    content: '';
+    position: absolute;
+    top: -40px; left: -40px;
+    width: 160px; height: 160px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.05);
+  }
+  .contact-logo {
+    font-family: 'DM Serif Display', serif;
+    font-weight: 800;
+    font-size: 1.5rem;
+    color: #ffffff;
+    letter-spacing: -0.5px;
+    position: relative;
+    z-index: 1;
+  }
+  .contact-logo span { color: rgba(255,255,255,0.45); }
+  .contact-panel-title { position: relative; z-index: 1; }
+  .contact-panel-title h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.7rem;
+    color: #fff;
+    line-height: 1.2;
+    margin-bottom: 12px;
+  }
+  .contact-panel-title p { color: rgba(255,255,255,0.7); font-size: 0.88rem; line-height: 1.7; }
+  .contact-info-list { list-style: none; display: flex; flex-direction: column; gap: 18px; position: relative; z-index: 1; }
+  .contact-info-list li { display: flex; align-items: flex-start; gap: 14px; }
+  .contact-info-list .ico {
+    width: 36px; height: 36px;
+    background: rgba(255,255,255,0.12);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem; flex-shrink: 0;
+  }
+  .contact-info-list .detail { display: flex; flex-direction: column; }
+  .contact-info-list .lbl { font-size: 0.72rem; font-weight: 600; color: #a8f0c0; letter-spacing: 0.8px; text-transform: uppercase; margin-bottom: 2px; }
+  .contact-info-list .val { font-size: 0.88rem; color: #fff; }
+  .contact-panel-right { background: #fff; padding: 48px 40px; }
+  .contact-panel-right h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.4rem;
+    color: #0f1f14;
+    margin-bottom: 6px;
+  }
+  .contact-panel-right .sub { color: #7a9e87; font-size: 0.87rem; margin-bottom: 28px; }
+  .contact-row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .contact-field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+  .contact-field label { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px; color: #4a7a5a; }
+  .contact-field input,
+  .contact-field select,
+  .contact-field textarea {
+    background: #f4faf6;
+    border: 1.5px solid #c8e8d2;
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    color: #0f1f14;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    width: 100%;
+  }
+  .contact-field input::placeholder, .contact-field textarea::placeholder { color: #b0ccba; }
+  .contact-field input:focus, .contact-field select:focus, .contact-field textarea:focus {
+    border-color: #1a7a3c;
+    box-shadow: 0 0 0 3px rgba(26,122,60,0.1);
+    background: #fff;
+  }
+  .contact-field select {
+    appearance: none;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%234a7a5a' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+  }
+  .contact-field textarea { resize: vertical; min-height: 100px; }
+  .contact-btn {
+    width: 100%;
+    margin-top: 4px;
+    background: #1a7a3c;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+  }
+  .contact-btn:hover { background: #156830; box-shadow: 0 8px 20px rgba(26,122,60,0.3); transform: translateY(-1px); }
+  .contact-success { display: none; text-align: center; padding: 20px 0; }
+  .contact-success .circle {
+    width: 64px; height: 64px;
+    background: #e6f7ed;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.8rem;
+    margin: 0 auto 16px;
+    animation: pop 0.4s cubic-bezier(0.34,1.56,0.64,1) both;
+  }
+  .contact-success h4 { font-family: 'DM Serif Display', sans-serif; font-weight: 800; color: #0f1f14; font-size: 1.2rem; margin-bottom: 6px; }
+  .contact-success p { color: #7a9e87; font-size: 0.88rem; line-height: 1.6; }
+  @media (max-width: 640px) {
+    .contact-card { grid-template-columns: 1fr; }
+    .contact-panel-left { padding: 36px 28px; }
+    .contact-panel-right { padding: 36px 24px; }
+    .contact-row2 { grid-template-columns: 1fr; }
+  }
+</style>
+<div class="contact-wrap">
+  <div class="contact-card">
+    <!-- LEFT -->
+    <div class="contact-panel-left">
+      <div class="contact-logo">Work<span>aholic</span></div>
+      <div class="contact-panel-title">
+        <h2>Mari Bicara<br/>Bersama Kami</h2>
+        <p>Kami siap membantu kamu menemukan karier impian. Hubungi tim kami kapan saja.</p>
+      </div>
+      <ul class="contact-info-list">
+        <li>
+          <div class="ico">📍</div>
+          <div class="detail">
+            <span class="lbl">Alamat</span>
+            <span class="val">Gedung Workaholic Tower, Lt. 12, Jl. Jenderal Sudirman Kav. 52–53, Jakarta Selatan 12190</span>
+          </div>
+        </li>
+        <li>
+          <div class="ico">✉️</div>
+          <div class="detail">
+            <span class="lbl">Email</span>
+            <span class="val">cs@workaholic.id</span>
+          </div>
+        </li>
+        <li>
+          <div class="ico">📞</div>
+          <div class="detail">
+            <span class="lbl">Telepon</span>
+            <span class="val">+62 812-3456-7890</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <!-- RIGHT -->
+    <div class="contact-panel-right">
+      <div id="contactFormContent">
+        <h3>Kirim Pesan</h3>
+        <p class="sub">Isi formulir berikut dan kami akan merespons dalam 1×24 jam.</p>
+        <div class="contact-row2">
+          <div class="contact-field">
+            <label>Nama Depan</label>
+            <input type="text" placeholder="Andi"/>
+          </div>
+          <div class="contact-field">
+            <label>Nama Belakang</label>
+            <input type="text" placeholder="Pratama"/>
+          </div>
+        </div>
+        <div class="contact-field">
+          <label>Email</label>
+          <input type="email" placeholder="andi@email.com"/>
+        </div>
+        <div class="contact-field">
+          <label>Topik</label>
+          <select>
+            <option value="">— Pilih topik —</option>
+            <option>Informasi Lowongan</option>
+            <option>Kerja Sama Perusahaan</option>
+            <option>Masalah Akun</option>
+            <option>Lainnya</option>
+          </select>
+        </div>
+        <div class="contact-field">
+          <label>Pesan</label>
+          <textarea placeholder="Tulis pesanmu di sini..."></textarea>
+        </div>
+        <button class="contact-btn" onclick="submitContactForm()">
+          Kirim Pesan
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"/>
+            <polyline points="12 5 19 12 12 19"/>
+          </svg>
+        </button>
+      </div>
+      <div class="contact-success" id="contactSuccessMsg">
+        <div class="circle">✓</div>
+        <h4>Pesan Terkirim!</h4>
+        <p>Terima kasih telah menghubungi Workaholic.<br/>Kami akan membalas dalam 1×24 jam kerja.</p>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
 <!-- MARQUEE -->
 <div class="marquee-section" id="global-marquee">
   <div class="marquee-track">
@@ -2854,43 +3097,9 @@ function doLogout() {
       <div class="footer-col-title">Butuh Bantuan?</div>
       <div class="footer-cs">
         <div class="footer-cs-title">Customer Service</div>
-
-        <div class="cs-item">
-          <div class="cs-icon">📞</div>
-          <div>
-            <div class="cs-label">Telepon</div>
-            <div class="cs-val">021-5566-7788</div>
-          </div>
-        </div>
-
-        <div class="cs-item">
-          <div class="cs-icon">💬</div>
-          <div>
-            <div class="cs-label">WhatsApp</div>
-            <div class="cs-val">+62 812-3456-7890</div>
-          </div>
-        </div>
-
-        <div class="cs-item">
-          <div class="cs-icon">📧</div>
-          <div>
-            <div class="cs-label">Email</div>
-            <div class="cs-val">cs@workaholic.id</div>
-          </div>
-        </div>
-
-        <div class="cs-item">
-          <div class="cs-icon">⏰</div>
-          <div>
-            <div class="cs-label">Jam Operasional</div>
-            <div class="cs-val">Sen–Jum, 08.00–17.00</div>
-          </div>
-        </div>
-      </div>
-
-      <div style="margin-top:14px;padding:12px 14px;background:rgba(45,106,79,0.12);border:1px solid rgba(45,106,79,0.2);border-radius:9px">
-        <div style="font-size:12px;color:rgba(255,255,255,0.5);margin-bottom:4px">⚡ Respons rata-rata</div>
-        <div style="font-size:13px;color:rgba(255,255,255,0.8);font-weight:500">Di bawah 2 jam kerja</div>
+        <a onclick="showPage('contact')" style="display:inline-flex;align-items:center;gap:8px;margin-top:10px;padding:11px 20px;background:#2D6A4F;color:#fff;border-radius:8px;text-decoration:none;font-size:14px;font-weight:500;transition:background 0.2s;cursor:pointer;" onmouseover="this.style.background='#1B5235'" onmouseout="this.style.background='#2D6A4F'">
+          ✉️ Contact Us
+        </a>
       </div>
     </div>
 
