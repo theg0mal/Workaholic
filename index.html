@@ -1,0 +1,3053 @@
+<?php session_start(); ?>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Workaholic — Cari Kerja Mudah</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #F7F4EF;
+    --paper: #FDFCFA;
+    --ink: #1A1814;
+    --ink-soft: #5C574F;
+    --ink-muted: #9C9890;
+    --accent: #2D6A4F;
+    --accent-soft: #D8EDD7;
+    --accent-light: #F0F8EE;
+    --warm-border: #E8E3DA;
+    --tag-bg: #EDEBE6;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* NAV */
+  nav {
+    background: var(--paper);
+    border-bottom: 1px solid var(--warm-border);
+    padding: 0 5vw;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    color: var(--ink);
+    letter-spacing: -0.5px;
+    text-decoration: none;
+  }
+
+  .logo span { color: var(--accent); }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 400;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--ink); }
+
+  .nav-post {
+    background: var(--ink);
+    color: var(--paper) !important;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 500 !important;
+    font-size: 13px !important;
+    transition: background 0.2s !important;
+  }
+
+  .nav-post:hover { background: var(--accent) !important; color: white !important; }
+
+  /* HERO */
+  .hero {
+    padding: 72px 5vw 56px;
+    max-width: 1200px;
+    margin: 0 auto;
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .hero-kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--accent-light);
+    padding: 4px 10px;
+    border-radius: 99px;
+    margin-bottom: 20px;
+  }
+
+  .hero-kicker::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: inline-block;
+  }
+
+  h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(36px, 5vw, 52px);
+    line-height: 1.12;
+    letter-spacing: -1.5px;
+    color: var(--ink);
+    margin-bottom: 16px;
+    max-width: 560px;
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero-sub {
+    font-size: 16px;
+    color: var(--ink-soft);
+    font-weight: 300;
+    max-width: 440px;
+    margin-bottom: 36px;
+    line-height: 1.7;
+  }
+
+  /* SEARCH */
+  .search-wrap {
+    display: flex;
+    gap: 8px;
+    max-width: 540px;
+    background: var(--paper);
+    border: 1.5px solid var(--warm-border);
+    border-radius: 10px;
+    padding: 6px 6px 6px 16px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .search-wrap:focus-within {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(45,106,79,0.1);
+  }
+
+  .search-wrap input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    background: transparent;
+    color: var(--ink);
+  }
+
+  .search-wrap input::placeholder { color: var(--ink-muted); }
+
+  .btn-search {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 7px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    white-space: nowrap;
+  }
+
+  .btn-search:hover { background: #1B5235; }
+  .btn-search:active { transform: scale(0.98); }
+
+  .hero-stats {
+    display: flex;
+    gap: 32px;
+    margin-top: 40px;
+    padding-top: 32px;
+    border-top: 1px solid var(--warm-border);
+    flex-wrap: wrap;
+  }
+
+  .stat-item { }
+  .stat-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    color: var(--ink);
+    letter-spacing: -0.5px;
+    display: block;
+  }
+  .stat-lbl {
+    font-size: 12px;
+    color: var(--ink-muted);
+    font-weight: 400;
+  }
+
+  /* FILTER TAGS */
+  .filter-section {
+    padding: 0 5vw 28px;
+    max-width: 1200px;
+    margin: 0 auto;
+    animation: fadeUp 0.5s 0.1s ease both;
+  }
+
+  .filter-label {
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--ink-muted);
+    margin-bottom: 10px;
+  }
+
+  .filter-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .tag {
+    padding: 6px 14px;
+    border-radius: 99px;
+    font-size: 13px;
+    font-weight: 400;
+    cursor: pointer;
+    border: 1px solid var(--warm-border);
+    background: var(--paper);
+    color: var(--ink-soft);
+    transition: all 0.15s;
+    user-select: none;
+  }
+
+  .tag:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .tag.active {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+    font-weight: 500;
+  }
+
+  /* MAIN LAYOUT */
+  .main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 5vw 80px;
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: 32px;
+    align-items: start;
+  }
+
+  /* JOB LIST */
+  .list-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+
+  .list-count {
+    font-size: 13px;
+    color: var(--ink-muted);
+  }
+
+  .list-count strong { color: var(--ink); }
+
+  .sort-select {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: var(--ink-soft);
+    background: transparent;
+    border: 1px solid var(--warm-border);
+    border-radius: 6px;
+    padding: 5px 10px;
+    cursor: pointer;
+    outline: none;
+  }
+
+  .job-card {
+    background: var(--paper);
+    border: 1px solid var(--warm-border);
+    border-radius: 12px;
+    padding: 20px 22px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+    animation: fadeUp 0.4s ease both;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .job-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: transparent;
+    transition: background 0.2s;
+  }
+
+  .job-card:hover {
+    border-color: #c8c2b8;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    transform: translateY(-1px);
+  }
+
+  .job-card:hover::before { background: var(--accent); }
+  .job-card.featured { }
+  .job-card.featured::before { }
+
+  .card-top {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 12px;
+  }
+
+  .company-logo {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+    font-weight: 600;
+    flex-shrink: 0;
+    border: 1px solid var(--warm-border);
+    font-family: 'DM Serif Display', serif;
+  }
+
+  .card-header { flex: 1; min-width: 0; }
+
+  .job-title {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .company-name {
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+
+  .badge-featured {
+    font-size: 11px;
+    font-weight: 500;
+    background: var(--accent-soft);
+    color: var(--accent);
+    padding: 3px 8px;
+    border-radius: 99px;
+    white-space: nowrap;
+    letter-spacing: 0.03em;
+  }
+
+  .card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+
+  .meta-pill {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    color: var(--ink-muted);
+    background: var(--tag-bg);
+    padding: 3px 10px;
+    border-radius: 99px;
+  }
+
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 12px;
+    border-top: 1px solid var(--warm-border);
+  }
+
+  .salary {
+    font-family: 'DM Serif Display', serif;
+    font-size: 17px;
+    color: var(--ink);
+    letter-spacing: -0.3px;
+  }
+
+  .salary span {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    color: var(--ink-muted);
+    font-weight: 400;
+    letter-spacing: 0;
+  }
+
+  .card-time {
+    font-size: 12px;
+    color: var(--ink-muted);
+  }
+
+  .btn-apply {
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    padding: 8px 16px;
+    border-radius: 7px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .btn-apply:hover { background: var(--accent); }
+
+  /* SIDEBAR */
+  .sidebar { position: sticky; top: 80px; }
+
+  .sidebar-card {
+    background: var(--paper);
+    border: 1px solid var(--warm-border);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+
+  .sidebar-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 17px;
+    margin-bottom: 14px;
+    color: var(--ink);
+  }
+
+  .sidebar-filter { margin-bottom: 18px; }
+  .sf-label {
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--ink-muted);
+    margin-bottom: 8px;
+  }
+
+  .sf-options { display: flex; flex-direction: column; gap: 6px; }
+
+  .sf-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--ink-soft);
+    cursor: pointer;
+    padding: 6px 8px;
+    border-radius: 6px;
+    transition: background 0.15s;
+    user-select: none;
+  }
+
+  .sf-option:hover { background: var(--cream); color: var(--ink); }
+
+  .sf-option input[type=checkbox] { accent-color: var(--accent); cursor: pointer; }
+
+  .sf-option .sf-count {
+    margin-left: auto;
+    font-size: 11px;
+    color: var(--ink-muted);
+  }
+
+  .btn-reset {
+    width: 100%;
+    padding: 9px;
+    border: 1px solid var(--warm-border);
+    border-radius: 7px;
+    background: transparent;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: var(--ink-soft);
+    cursor: pointer;
+    margin-top: 4px;
+    transition: all 0.15s;
+  }
+
+  .btn-reset:hover { border-color: var(--ink); color: var(--ink); }
+
+  .newsletter {
+    background: var(--ink);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+
+  .newsletter p:first-child {
+    font-family: 'DM Serif Display', serif;
+    font-size: 17px;
+    color: var(--paper);
+    margin-bottom: 6px;
+  }
+
+  .newsletter p:nth-child(2) {
+    font-size: 13px;
+    color: #8C8880;
+    margin-bottom: 14px;
+    font-weight: 300;
+  }
+
+  .nl-input {
+    width: 100%;
+    padding: 9px 12px;
+    border-radius: 7px;
+    border: 1px solid #3A3830;
+    background: #252320;
+    color: var(--paper);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    margin-bottom: 8px;
+    outline: none;
+  }
+
+  .nl-input::placeholder { color: #5C574F; }
+  .nl-input:focus { border-color: var(--accent); }
+
+  .btn-nl {
+    width: 100%;
+    padding: 9px;
+    border: none;
+    border-radius: 7px;
+    background: var(--accent);
+    color: white;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .btn-nl:hover { background: #1B5235; }
+
+  /* MODAL */
+  .overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(26,24,20,0.5);
+    z-index: 200;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    backdrop-filter: blur(2px);
+  }
+
+  .overlay.open { display: flex; }
+
+  .modal {
+    background: var(--paper);
+    border-radius: 16px;
+    max-width: 520px;
+    width: 100%;
+    max-height: 85vh;
+    overflow-y: auto;
+    padding: 32px;
+    position: relative;
+    animation: modalIn 0.25s ease both;
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 16px; right: 16px;
+    width: 32px; height: 32px;
+    border: none;
+    background: var(--tag-bg);
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+    color: var(--ink-soft);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s;
+  }
+
+  .modal-close:hover { background: var(--warm-border); }
+
+  .modal-logo {
+    width: 56px; height: 56px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: 600;
+    font-family: 'DM Serif Display', serif;
+    border: 1px solid var(--warm-border);
+    margin-bottom: 16px;
+  }
+
+  .modal h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 24px;
+    letter-spacing: -0.5px;
+    margin-bottom: 4px;
+  }
+
+  .modal-company { font-size: 14px; color: var(--ink-soft); margin-bottom: 20px; }
+
+  .modal-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--warm-border);
+  }
+
+  .modal-section { margin-bottom: 20px; }
+
+  .modal-section h3 {
+    font-size: 13px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--ink-muted);
+    margin-bottom: 10px;
+  }
+
+  .modal-section p, .modal-section li {
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.7;
+  }
+
+  .modal-section ul { padding-left: 18px; }
+  .modal-section li { margin-bottom: 4px; }
+
+  .modal-footer {
+    display: flex;
+    gap: 10px;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--warm-border);
+  }
+
+  .btn-apply-lg {
+    flex: 1;
+    padding: 12px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 9px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .btn-apply-lg:hover { background: #1B5235; }
+
+  .btn-save {
+    padding: 12px 20px;
+    border: 1px solid var(--warm-border);
+    background: transparent;
+    border-radius: 9px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .btn-save:hover { border-color: var(--ink); color: var(--ink); }
+
+  /* EMPTY */
+  .empty {
+    text-align: center;
+    padding: 48px 20px;
+    display: none;
+  }
+
+  .empty-icon { font-size: 36px; margin-bottom: 12px; }
+  .empty h3 { font-family: 'DM Serif Display', serif; font-size: 20px; margin-bottom: 8px; }
+  .empty p { font-size: 14px; color: var(--ink-muted); }
+
+  /* TOAST */
+  .toast {
+    position: fixed;
+    bottom: 24px; right: 24px;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-size: 14px;
+    z-index: 300;
+    transform: translateY(100px);
+    opacity: 0;
+    transition: all 0.3s ease;
+  }
+
+  .toast.show { transform: translateY(0); opacity: 1; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes modalIn {
+    from { opacity: 0; transform: scale(0.96) translateY(10px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  /* ===== MOBILE RESPONSIVE ===== */
+  @media (max-width: 768px) {
+
+    /* NAV */
+    nav {
+      padding: 0 16px;
+      height: 54px;
+    }
+
+    .nav-links {
+      gap: 8px;
+    }
+
+    .nav-links li:first-child,
+    .nav-links li:nth-child(2) {
+      display: none; /* hide Lowongan & Perusahaan text links on mobile */
+    }
+
+    .nav-btn-login { padding: 6px 12px; font-size: 12px; }
+    .nav-btn-signup { padding: 6px 12px; font-size: 12px; }
+
+    /* HERO */
+    .hero {
+      padding: 36px 16px 32px;
+    }
+
+    h1 { font-size: 28px; letter-spacing: -0.5px; }
+
+    .hero-sub { font-size: 14px; margin-bottom: 24px; }
+
+    .search-wrap {
+      flex-direction: column;
+      padding: 10px;
+      gap: 8px;
+      border-radius: 12px;
+    }
+
+    .search-wrap input { font-size: 14px; padding: 4px 0; }
+    .btn-search { width: 100%; padding: 11px; border-radius: 8px; }
+
+    .hero-stats {
+      gap: 20px;
+      margin-top: 28px;
+      padding-top: 24px;
+    }
+
+    .stat-num { font-size: 22px; }
+
+    /* FILTER TAGS */
+    .filter-section { padding: 0 16px 20px; overflow-x: auto; }
+    .filter-tags { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 4px; }
+    .filter-tags::-webkit-scrollbar { display: none; }
+    .tag { white-space: nowrap; flex-shrink: 0; }
+
+    /* MAIN / HOME LAYOUT */
+    .home-layout { padding: 0 16px; }
+    .main { padding: 0; }
+    .sidebar { display: none; }
+
+    /* JOB CARDS */
+    .job-card { padding: 14px 16px; }
+    .company-logo { width: 38px; height: 38px; font-size: 14px; }
+    .job-title { font-size: 14px; }
+    .company-name { font-size: 12px; }
+    .meta-pill { font-size: 11px; padding: 3px 8px; }
+    .salary { font-size: 15px; }
+    .btn-apply { padding: 7px 12px; font-size: 12px; }
+
+    /* LIST HEADER */
+    .list-header { margin-bottom: 12px; }
+
+    /* MODAL */
+    .modal { padding: 24px 20px; border-radius: 14px; }
+    .modal h2 { font-size: 20px; }
+    .modal-logo { width: 48px; height: 48px; font-size: 18px; }
+    .modal-footer { flex-direction: column; }
+    .btn-apply-lg { padding: 13px; }
+    .btn-save { padding: 11px; }
+
+    /* APPLY PAGE */
+    .apply-wrap { padding: 24px 16px 60px; }
+    .apply-section { padding: 16px; }
+    .apply-two-col { grid-template-columns: 1fr; gap: 0; }
+    .apply-progress { gap: 4px; }
+    .prog-step span { display: none; } /* hide step labels, show only dots */
+    .apply-footer { flex-direction: column-reverse; gap: 8px; }
+    .btn-back-apply, .btn-submit-apply { width: 100%; text-align: center; }
+
+    /* COMPANIES PAGE */
+    .companies-wrap { padding: 24px 16px 60px; }
+    .companies-grid { grid-template-columns: 1fr; }
+    .companies-hero h2 { font-size: 24px; }
+
+    /* COMPANY PROFILE */
+    .cp-wrap { padding: 24px 16px 60px; }
+    .cp-cover { height: 100px; }
+    .cp-header { padding: 14px 16px 18px; }
+    .cp-logo { width: 52px; height: 52px; font-size: 18px; }
+    .cp-name { font-size: 20px; }
+    .cp-stat { padding: 0 10px; }
+    .cp-stat-val { font-size: 18px; }
+    .cp-body { grid-template-columns: 1fr; }
+    .cp-section { padding: 16px; }
+
+    /* AUTH */
+    .auth-box { padding: 28px 20px 24px; }
+    .auth-title { font-size: 22px; }
+    .field-row { flex-direction: column; gap: 0; }
+
+    /* FOOTER */
+    .footer-cta { padding: 32px 16px; }
+    .footer-cta-left h3 { font-size: 20px; }
+    .footer-cta-right { width: 100%; }
+    .btn-cta-white, .btn-cta-outline { flex: 1; text-align: center; padding: 11px 16px; }
+
+    .footer-main {
+      grid-template-columns: 1fr;
+      gap: 32px;
+      padding: 36px 16px 28px;
+    }
+
+    .footer-desc { max-width: 100%; }
+
+    .footer-bottom {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 16px;
+      gap: 8px;
+    }
+  }
+
+  @media (max-width: 400px) {
+    h1 { font-size: 24px; }
+    .hero { padding: 28px 14px 24px; }
+    .home-layout { padding: 0 12px; }
+    .nav-btn-login { display: none; } /* only show signup on very small screens */
+  }
+
+  /* AUTH PAGES */
+  .page { display: none; }
+  .page.active { display: block; }
+
+  .auth-wrap {
+    min-height: calc(100vh - 60px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    background: var(--cream);
+  }
+
+  .auth-box {
+    background: var(--paper);
+    border: 1px solid var(--warm-border);
+    border-radius: 16px;
+    padding: 40px 40px 36px;
+    width: 100%;
+    max-width: 420px;
+    animation: fadeUp 0.4s ease both;
+  }
+
+  .auth-logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 20px;
+    color: var(--ink);
+    text-decoration: none;
+    display: block;
+    margin-bottom: 28px;
+    cursor: pointer;
+  }
+  .auth-logo span { color: var(--accent); }
+
+  .auth-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 26px;
+    letter-spacing: -0.5px;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+
+  .auth-sub {
+    font-size: 14px;
+    color: var(--ink-muted);
+    margin-bottom: 28px;
+    font-weight: 300;
+  }
+
+  .auth-sub a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  .auth-sub a:hover { text-decoration: underline; }
+
+  .auth-field { margin-bottom: 16px; }
+
+  .auth-label {
+    display: block;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--ink-soft);
+    margin-bottom: 6px;
+    letter-spacing: 0.03em;
+  }
+
+  .auth-input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--warm-border);
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: var(--ink);
+    background: var(--cream);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .auth-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(45,106,79,0.1);
+    background: var(--paper);
+  }
+
+  .auth-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    margin-top: -4px;
+  }
+
+  .auth-check {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 13px;
+    color: var(--ink-soft);
+    cursor: pointer;
+  }
+
+  .auth-check input { accent-color: var(--accent); cursor: pointer; }
+
+  .auth-forgot {
+    font-size: 13px;
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  .auth-forgot:hover { text-decoration: underline; }
+
+  .btn-auth {
+    width: 100%;
+    padding: 12px;
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    border-radius: 9px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    margin-bottom: 16px;
+  }
+
+  .btn-auth:hover { background: var(--accent); }
+  .btn-auth:active { transform: scale(0.99); }
+
+  .auth-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    color: var(--ink-muted);
+    font-size: 12px;
+  }
+
+  .auth-divider::before, .auth-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--warm-border);
+  }
+
+  .btn-google {
+    width: 100%;
+    padding: 11px;
+    background: var(--paper);
+    border: 1px solid var(--warm-border);
+    border-radius: 9px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: var(--ink);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    margin-bottom: 24px;
+  }
+
+  .btn-google:hover {
+    border-color: #c8c2b8;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+
+  .google-icon {
+    width: 18px; height: 18px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath fill='%23EA4335' d='M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z'/%3E%3Cpath fill='%234285F4' d='M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z'/%3E%3Cpath fill='%23FBBC05' d='M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z'/%3E%3Cpath fill='%2334A853' d='M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z'/%3E%3C/svg%3E") center/contain no-repeat;
+    flex-shrink: 0;
+  }
+
+  .auth-switch {
+    text-align: center;
+    font-size: 13px;
+    color: var(--ink-muted);
+    padding-top: 20px;
+    border-top: 1px solid var(--warm-border);
+  }
+
+  .auth-switch a {
+    color: var(--accent);
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .auth-switch a:hover { text-decoration: underline; }
+
+  .auth-terms {
+    font-size: 12px;
+    color: var(--ink-muted);
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+
+  .auth-terms a { color: var(--accent); text-decoration: none; }
+
+  .field-row { display: flex; gap: 12px; }
+  .field-row .auth-field { flex: 1; }
+
+  .nav-btn-login {
+    padding: 7px 16px;
+    border: 1px solid var(--warm-border);
+    border-radius: 7px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: var(--ink-soft);
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .nav-btn-login:hover { border-color: var(--ink); color: var(--ink); }
+
+  .nav-btn-signup {
+    padding: 7px 16px;
+    border: none;
+    border-radius: 7px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: white;
+    background: var(--ink);
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .nav-btn-signup:hover { background: var(--accent); }
+
+  .user-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+
+  .user-avatar {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    background: var(--accent-soft);
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .btn-logout {
+    font-size: 12px;
+    color: var(--ink-muted);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    padding: 2px 6px;
+    border-radius: 4px;
+    transition: color 0.15s;
+  }
+  .btn-logout:hover { color: var(--ink); }
+
+
+
+  /* ===== APPLY PAGE ===== */
+  .apply-wrap {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 40px 5vw 80px;
+  }
+
+  .apply-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 28px;
+  }
+
+  .apply-company-logo {
+    width: 52px; height: 52px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; font-weight: 700;
+    font-family: 'DM Serif Display', serif;
+    border: 1px solid var(--warm-border);
+    flex-shrink: 0;
+  }
+
+  .apply-job-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    letter-spacing: -0.5px;
+    color: var(--ink);
+    margin-bottom: 2px;
+  }
+
+  .apply-company-name { font-size: 13px; color: var(--ink-muted); }
+
+  .apply-section {
+    background: var(--paper);
+    border: 1px solid var(--warm-border);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 16px;
+  }
+
+  .apply-section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 17px;
+    color: var(--ink);
+    margin-bottom: 18px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--warm-border);
+  }
+
+  .apply-field { margin-bottom: 16px; }
+  .apply-field:last-child { margin-bottom: 0; }
+
+  .apply-label {
+    display: block;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--ink-soft);
+    margin-bottom: 6px;
+    letter-spacing: 0.03em;
+  }
+
+  .apply-input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--warm-border);
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: var(--ink);
+    background: var(--cream);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .apply-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(45,106,79,0.1);
+    background: var(--paper);
+  }
+
+  .apply-textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--warm-border);
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: var(--ink);
+    background: var(--cream);
+    outline: none;
+    resize: vertical;
+    min-height: 120px;
+    line-height: 1.6;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .apply-textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(45,106,79,0.1);
+    background: var(--paper);
+  }
+
+  .apply-select {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--warm-border);
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: var(--ink);
+    background: var(--cream);
+    outline: none;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%239C9890' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+  }
+
+  .apply-select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(45,106,79,0.1); }
+
+  .upload-area {
+    border: 1.5px dashed var(--warm-border);
+    border-radius: 8px;
+    padding: 24px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    background: var(--cream);
+  }
+
+  .upload-area:hover { border-color: var(--accent); background: var(--accent-light); }
+
+  .upload-icon { font-size: 28px; margin-bottom: 8px; }
+  .upload-label { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 4px; }
+  .upload-hint { font-size: 12px; color: var(--ink-muted); }
+
+  .apply-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+  .apply-footer {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: 8px;
+  }
+
+  .btn-back-apply {
+    padding: 11px 20px;
+    border: 1px solid var(--warm-border);
+    border-radius: 9px;
+    background: transparent;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .btn-back-apply:hover { border-color: var(--ink); color: var(--ink); }
+
+  .btn-submit-apply {
+    padding: 12px 28px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 9px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .btn-submit-apply:hover { background: #1B5235; }
+
+  .apply-progress {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 28px;
+  }
+
+  .prog-step {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--ink-muted);
+  }
+
+  .prog-step.active { color: var(--accent); font-weight: 500; }
+  .prog-step.done { color: var(--ink-soft); }
+
+  .prog-dot {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    border: 1.5px solid var(--warm-border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px;
+    font-weight: 600;
+    background: var(--paper);
+    color: var(--ink-muted);
+    flex-shrink: 0;
+  }
+
+  .prog-step.active .prog-dot { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+  .prog-step.done .prog-dot { border-color: var(--accent); background: var(--accent); color: white; }
+
+  .prog-line { flex: 1; height: 1px; background: var(--warm-border); }
+  .prog-line.done { background: var(--accent); }
+
+  /* ===== COMPANIES PAGE ===== */
+  .companies-wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 5vw 80px;
+  }
+
+  .companies-hero {
+    margin-bottom: 36px;
+    animation: fadeUp 0.4s ease both;
+  }
+
+  .companies-hero h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(28px, 4vw, 40px);
+    letter-spacing: -1px;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+
+  .companies-hero p {
+    font-size: 15px;
+    color: var(--ink-muted);
+    font-weight: 300;
+  }
+
+  .companies-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+
+  .company-card {
+    background: var(--paper);
+    border: 1px solid var(--warm-border);
+    border-radius: 12px;
+    padding: 20px;
+    cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+    animation: fadeUp 0.4s ease both;
+  }
+
+  .company-card:hover {
+    border-color: #c8c2b8;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    transform: translateY(-2px);
+  }
+
+  .cc-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+
+  .cc-logo {
+    width: 46px; height: 46px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; font-weight: 700;
+    font-family: 'DM Serif Display', serif;
+    border: 1px solid var(--warm-border);
+    flex-shrink: 0;
+  }
+
+  .cc-name { font-size: 15px; font-weight: 500; color: var(--ink); margin-bottom: 2px; }
+  .cc-industry { font-size: 12px; color: var(--ink-muted); }
+
+  .cc-desc {
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+    margin-bottom: 14px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .cc-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding-top: 14px;
+    border-top: 1px solid var(--warm-border);
+  }
+
+  .cc-pill {
+    font-size: 11px;
+    color: var(--ink-muted);
+    background: var(--tag-bg);
+    padding: 3px 9px;
+    border-radius: 99px;
+  }
+
+  /* COMPANY PROFILE PAGE */
+  .cp-wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 5vw 80px;
+    animation: fadeUp 0.4s ease both;
+  }
+
+  .cp-cover {
+    height: 160px;
+    border-radius: 14px;
+    margin-bottom: -36px;
+    background: linear-gradient(135deg, var(--accent) 0%, #0f3d2a 100%);
+    position: relative;
+  }
+
+  .cp-header {
+    background: var(--paper);
+    border: 1px solid var(--warm-border);
+    border-radius: 14px;
+    padding: 20px 24px 24px;
+    margin-bottom: 20px;
+    position: relative;
+  }
+
+  .cp-logo-wrap {
+    display: flex;
+    align-items: flex-end;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  .cp-logo {
+    width: 68px; height: 68px;
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px; font-weight: 700;
+    font-family: 'DM Serif Display', serif;
+    border: 2px solid var(--paper);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+    flex-shrink: 0;
+    margin-top: -44px;
+  }
+
+  .cp-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 26px;
+    letter-spacing: -0.5px;
+    color: var(--ink);
+    margin-bottom: 2px;
+  }
+
+  .cp-tagline { font-size: 14px; color: var(--ink-muted); }
+
+  .cp-stats {
+    display: flex;
+    gap: 0;
+    border-top: 1px solid var(--warm-border);
+    padding-top: 16px;
+    flex-wrap: wrap;
+  }
+
+  .cp-stat {
+    flex: 1;
+    min-width: 100px;
+    padding: 0 16px;
+    border-right: 1px solid var(--warm-border);
+  }
+
+  .cp-stat:first-child { padding-left: 0; }
+  .cp-stat:last-child { border-right: none; }
+
+  .cp-stat-val {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    color: var(--ink);
+    display: block;
+  }
+
+  .cp-stat-lbl { font-size: 11px; color: var(--ink-muted); }
+
+  .cp-body { display: grid; grid-template-columns: 1fr 280px; gap: 20px; align-items: start; }
+
+  .cp-section {
+    background: var(--paper);
+    border: 1px solid var(--warm-border);
+    border-radius: 12px;
+    padding: 22px;
+    margin-bottom: 16px;
+  }
+
+  .cp-section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 17px;
+    color: var(--ink);
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--warm-border);
+  }
+
+  .cp-section p {
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.75;
+    margin-bottom: 10px;
+  }
+
+  .cp-section p:last-child { margin-bottom: 0; }
+
+  .cp-info-list { display: flex; flex-direction: column; gap: 10px; }
+
+  .cp-info-item {
+    display: flex;
+    gap: 10px;
+    font-size: 13px;
+  }
+
+  .cp-info-label { color: var(--ink-muted); min-width: 90px; flex-shrink: 0; }
+  .cp-info-val { color: var(--ink-soft); font-weight: 500; }
+
+  .cp-job-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--warm-border);
+    cursor: pointer;
+  }
+
+  .cp-job-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .cp-job-item:hover .cp-job-title { color: var(--accent); }
+
+  .cp-job-title { font-size: 13px; font-weight: 500; color: var(--ink); flex: 1; transition: color 0.15s; }
+  .cp-job-type { font-size: 11px; color: var(--ink-muted); background: var(--tag-bg); padding: 2px 8px; border-radius: 99px; }
+
+  .btn-follow {
+    padding: 9px 20px;
+    border: 1px solid var(--warm-border);
+    border-radius: 8px;
+    background: transparent;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: all 0.15s;
+    margin-top: 12px;
+    width: 100%;
+  }
+
+  .btn-follow:hover { border-color: var(--accent); color: var(--accent); }
+  .btn-follow.following { background: var(--accent-light); border-color: var(--accent); color: var(--accent); }
+
+
+
+
+  /* ===== FOOTER ===== */
+  .footer {
+    background: var(--ink);
+    color: var(--paper);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .footer-cta {
+    background: var(--accent);
+    padding: 56px 5vw;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .footer-cta::before {
+    content: '';
+    position: absolute;
+    right: -60px; top: -60px;
+    width: 280px; height: 280px;
+    border-radius: 50%;
+    border: 40px solid rgba(255,255,255,0.08);
+    pointer-events: none;
+  }
+
+  .footer-cta::after {
+    content: '';
+    position: absolute;
+    left: -40px; bottom: -80px;
+    width: 220px; height: 220px;
+    border-radius: 50%;
+    border: 30px solid rgba(255,255,255,0.06);
+    pointer-events: none;
+  }
+
+  .footer-cta-left h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(22px, 3vw, 32px);
+    letter-spacing: -0.5px;
+    color: white;
+    margin-bottom: 6px;
+  }
+
+  .footer-cta-left p {
+    font-size: 14px;
+    color: rgba(255,255,255,0.75);
+    font-weight: 300;
+    max-width: 400px;
+    line-height: 1.6;
+  }
+
+  .footer-cta-right { display: flex; gap: 10px; flex-wrap: wrap; flex-shrink: 0; }
+
+  .btn-cta-white {
+    padding: 12px 24px;
+    background: white;
+    color: var(--accent);
+    border: none;
+    border-radius: 9px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+
+  .btn-cta-white:hover { background: var(--cream); transform: translateY(-1px); }
+
+  .btn-cta-outline {
+    padding: 12px 24px;
+    background: transparent;
+    color: white;
+    border: 1.5px solid rgba(255,255,255,0.4);
+    border-radius: 9px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+
+  .btn-cta-outline:hover { border-color: white; background: rgba(255,255,255,0.08); }
+
+  .footer-main {
+    padding: 56px 5vw 40px;
+    display: grid;
+    grid-template-columns: 1.8fr 1fr 1fr 1fr;
+    gap: 48px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .footer-brand {}
+
+  .footer-logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 24px;
+    color: white;
+    margin-bottom: 12px;
+    display: block;
+  }
+
+  .footer-logo span { color: var(--accent); }
+
+  .footer-desc {
+    font-size: 13px;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.75;
+    margin-bottom: 24px;
+    font-weight: 300;
+    max-width: 260px;
+  }
+
+  .footer-socials {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+
+  .social-btn {
+    width: 38px; height: 38px;
+    border-radius: 9px;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 16px;
+    text-decoration: none;
+    color: white;
+  }
+
+  .social-btn:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+
+  .footer-address {
+    font-size: 12px;
+    color: rgba(255,255,255,0.4);
+    line-height: 1.8;
+  }
+
+  .footer-address strong {
+    color: rgba(255,255,255,0.6);
+    font-weight: 500;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .footer-col-title {
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(255,255,255,0.35);
+    margin-bottom: 18px;
+  }
+
+  .footer-links { list-style: none; }
+
+  .footer-links li { margin-bottom: 12px; }
+
+  .footer-links a {
+    font-size: 13px;
+    color: rgba(255,255,255,0.6);
+    text-decoration: none;
+    transition: color 0.15s;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .footer-links a:hover { color: white; }
+
+  .footer-cs {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 16px;
+    margin-top: 8px;
+  }
+
+  .footer-cs-title {
+    font-size: 12px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    margin-bottom: 12px;
+  }
+
+  .cs-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .cs-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+  .cs-icon {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.07);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+
+  .cs-label { font-size: 11px; color: rgba(255,255,255,0.4); margin-bottom: 1px; }
+  .cs-val { font-size: 12px; color: rgba(255,255,255,0.75); font-weight: 500; }
+
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.07);
+    padding: 20px 5vw;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .footer-bottom-left {
+    font-size: 12px;
+    color: rgba(255,255,255,0.3);
+  }
+
+  .footer-bottom-right {
+    display: flex;
+    gap: 20px;
+  }
+
+  .footer-bottom-right a {
+    font-size: 12px;
+    color: rgba(255,255,255,0.3);
+    text-decoration: none;
+    transition: color 0.15s;
+    cursor: pointer;
+  }
+
+  .footer-bottom-right a:hover { color: rgba(255,255,255,0.6); }
+
+  /* ===== DECORATIVE MARQUEE ===== */
+  .marquee-section {
+    background: var(--paper);
+    border-top: 1px solid var(--warm-border);
+    border-bottom: 1px solid var(--warm-border);
+    padding: 14px 0;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .marquee-track {
+    display: flex;
+    gap: 0;
+    animation: marquee 28s linear infinite;
+    width: max-content;
+  }
+
+  .marquee-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 28px;
+    font-size: 13px;
+    color: var(--ink-muted);
+    white-space: nowrap;
+    border-right: 1px solid var(--warm-border);
+  }
+
+  .marquee-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ===== SIDE DECORATIVE BANNER ===== */
+  .home-layout {
+    display: block;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 5vw;
+  }
+
+  .home-left { min-width: 0; }
+
+  .side-panel {
+    padding: 0 0 0 24px;
+    position: sticky;
+    top: 80px;
+  }
+
+  .side-card {
+    background: var(--paper);
+    border: 1px solid var(--warm-border);
+    border-radius: 12px;
+    padding: 18px;
+    margin-bottom: 14px;
+  }
+
+  .side-card-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 15px;
+    color: var(--ink);
+    margin-bottom: 14px;
+  }
+
+  .trending-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--warm-border);
+    cursor: pointer;
+  }
+
+  .trending-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .trending-item:hover .trending-title { color: var(--accent); }
+
+  .trending-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 18px;
+    color: var(--warm-border);
+    width: 20px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  .trending-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink);
+    transition: color 0.15s;
+    line-height: 1.3;
+  }
+
+  .trending-count { font-size: 11px; color: var(--ink-muted); }
+
+  .tip-item {
+    display: flex;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--warm-border);
+    align-items: flex-start;
+  }
+
+  .tip-item:last-child { border-bottom: none; padding-bottom: 0; }
+
+  .tip-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+  .tip-text {
+    font-size: 12px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+  }
+
+  .tip-text strong { color: var(--ink); display: block; font-size: 12px; margin-bottom: 1px; }
+
+
+
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="logo" onclick="showPage('home')" style="cursor:pointer">Workaholic<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#" onclick="showPage('home');return false;">Lowongan</a></li>
+    <li><a href="#" onclick="showPage('companies');return false;">Perusahaan</a></li>
+    <li id="nav-auth-btns" style="display:flex;gap:8px;list-style:none">
+      <button class="nav-btn-login" onclick="showPage('login')">Masuk</button>
+      <button class="nav-btn-signup" onclick="showPage('signup')">Daftar</button>
+    </li>
+    <li id="nav-user-badge" style="display:none">
+      <div class="user-badge">
+        <div class="user-avatar" id="nav-avatar">U</div>
+        <span id="nav-username"></span>
+        <button class="btn-logout" onclick="doLogout()">Keluar</button>
+      </div>
+    </li>
+  </ul>
+</nav>
+
+<div id="page-home" class="page active">
+<section class="hero">
+  <div class="hero-kicker">Diperbarui hari ini</div>
+  <h1>Temukan pekerjaan yang <em>tepat</em> untukmu</h1>
+  <p class="hero-sub">Ribuan lowongan dari perusahaan terpercaya di seluruh Indonesia. Lamar cepat, langsung ke rekruter.</p>
+  <div class="search-wrap">
+    <input type="text" id="search-input" placeholder="Cari posisi, perusahaan, atau kata kunci…" oninput="filterJobs()">
+    <button class="btn-search" onclick="filterJobs()">Cari</button>
+  </div>
+  <div class="hero-stats">
+    <div class="stat-item">
+      <span class="stat-num">2.400+</span>
+      <span class="stat-lbl">Lowongan aktif</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">850+</span>
+      <span class="stat-lbl">Perusahaan</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">48 jam</span>
+      <span class="stat-lbl">Rata-rata respons</span>
+    </div>
+  </div>
+</section>
+
+<section class="filter-section">
+  <div class="filter-label">Kategori</div>
+  <div class="filter-tags">
+    <span class="tag active" onclick="filterByTag(this,'semua')">Semua</span>
+    <span class="tag" onclick="filterByTag(this,'teknologi')">Teknologi</span>
+    <span class="tag" onclick="filterByTag(this,'desain')">Desain</span>
+    <span class="tag" onclick="filterByTag(this,'keuangan')">Keuangan</span>
+    <span class="tag" onclick="filterByTag(this,'marketing')">Marketing</span>
+    <span class="tag" onclick="filterByTag(this,'pendidikan')">Pendidikan</span>
+    <span class="tag" onclick="filterByTag(this,'kesehatan')">Kesehatan</span>
+    <span class="tag" onclick="filterByTag(this,'hukum')">Hukum</span>
+  </div>
+</section>
+
+<div class="home-layout"><div class="main" style="padding:0;max-width:100%">
+  <div>
+    <div class="list-header">
+      <span class="list-count"><strong id="job-count">12</strong> lowongan ditemukan</span>
+      <select class="sort-select" onchange="sortJobs(this.value)">
+        <option value="terbaru">Terbaru</option>
+        <option value="gaji">Gaji tertinggi</option>
+        <option value="nama">A–Z</option>
+      </select>
+    </div>
+    <div id="job-list"></div>
+    <div class="empty" id="empty-state">
+      <div class="empty-icon">🔍</div>
+      <h3>Lowongan tidak ditemukan</h3>
+      <p>Coba kata kunci atau filter yang berbeda.</p>
+    </div>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-card">
+      <div class="sidebar-title">Filter</div>
+
+      <div class="sidebar-filter">
+        <div class="sf-label">Tipe Pekerjaan</div>
+        <div class="sf-options">
+          <label class="sf-option"><input type="checkbox" onchange="filterJobs()"> Full-time <span class="sf-count">8</span></label>
+          <label class="sf-option"><input type="checkbox" onchange="filterJobs()"> Part-time <span class="sf-count">3</span></label>
+          <label class="sf-option"><input type="checkbox" onchange="filterJobs()"> Remote <span class="sf-count">5</span></label>
+          <label class="sf-option"><input type="checkbox" onchange="filterJobs()"> Freelance <span class="sf-count">2</span></label>
+          <label class="sf-option"><input type="checkbox" onchange="filterJobs()"> Internship <span class="sf-count">4</span></label>
+        </div>
+      </div>
+
+      <div class="sidebar-filter">
+        <div class="sf-label">Pengalaman</div>
+        <div class="sf-options">
+          <label class="sf-option"><input type="checkbox" onchange="filterJobs()"> Fresh Graduate <span class="sf-count">6</span></label>
+          <label class="sf-option"><input type="checkbox" onchange="filterJobs()"> 1–3 Tahun <span class="sf-count">5</span></label>
+          <label class="sf-option"><input type="checkbox" onchange="filterJobs()"> 3–5 Tahun <span class="sf-count">3</span></label>
+          <label class="sf-option"><input type="checkbox" onchange="filterJobs()"> 5+ Tahun <span class="sf-count">2</span></label>
+        </div>
+      </div>
+
+      <button class="btn-reset" onclick="resetFilters()">Reset semua filter</button>
+    </div>
+
+    <div class="newsletter">
+      <p>Dapat loker lebih cepat</p>
+      <p>Terima notifikasi lowongan sesuai profilmu, setiap hari.</p>
+      <input class="nl-input" type="email" placeholder="email@kamu.com">
+      <button class="btn-nl">Langganan</button>
+    </div>
+  </aside>
+</div>
+
+<!-- MODAL -->
+<div class="overlay" id="overlay" onclick="closeModal(event)">
+  <div class="modal" id="modal">
+    <button class="modal-close" onclick="closeModalDirect()">&#215;</button>
+    <div class="modal-logo" id="modal-logo"></div>
+    <h2 id="modal-title"></h2>
+    <div class="modal-company" id="modal-company"></div>
+    <div class="modal-meta" id="modal-meta"></div>
+    <div class="modal-section">
+      <h3>Tentang Posisi</h3>
+      <p id="modal-desc"></p>
+    </div>
+    <div class="modal-section">
+      <h3>Kualifikasi</h3>
+      <ul id="modal-qual"></ul>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-apply-lg" onclick="applyJob()">Lamar Sekarang</button>
+      <button class="btn-save" onclick="saveJob()">Simpan</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+var currentTag = 'semua';
+
+var jobs = [
+  {
+    id:1, featured:true,
+    title:'Frontend Developer',
+    company:'Tokopedia',
+    logo:'Tk', logoBg:'#E8F4FF', logoCol:'#1B5EA8',
+    location:'Jakarta Selatan', type:'Full-time', mode:'Hybrid',
+    category:'teknologi', exp:'1–3 Tahun',
+    salary:'Rp 8–14 jt', salaryRaw:14,
+    posted:'2 jam lalu',
+    desc:'Kami mencari Frontend Developer berpengalaman untuk bergabung dengan tim produk kami. Kamu akan membangun dan menyempurnakan antarmuka pengguna yang digunakan oleh jutaan orang Indonesia setiap harinya.',
+    qual:['Menguasai HTML, CSS, JavaScript, dan React.js','Pengalaman minimal 1 tahun di industri teknologi','Mampu bekerja dalam tim Agile/Scrum','Memahami prinsip UI/UX dan aksesibilitas','Nilai plus: TypeScript, Next.js']
+  },
+  {
+    id:2, featured:false,
+    title:'UI/UX Designer',
+    company:'Gojek',
+    logo:'Go', logoBg:'#E8F8EE', logoCol:'#1B7A3E',
+    location:'Jakarta Pusat', type:'Full-time', mode:'Remote',
+    category:'desain', exp:'3–5 Tahun',
+    salary:'Rp 12–20 jt', salaryRaw:20,
+    posted:'5 jam lalu',
+    desc:'Bergabunglah dengan tim desain Gojek untuk menciptakan pengalaman pengguna yang bermakna di aplikasi super-app kami. Kamu akan bekerja langsung dengan PM dan engineer untuk merancang fitur baru dari nol.',
+    qual:['Portfolio desain yang kuat dan beragam','Mahir menggunakan Figma','Memahami design system dan component library','Kemampuan user research dan usability testing','Pengalaman 3+ tahun di bidang UI/UX']
+  },
+  {
+    id:3, featured:false,
+    title:'Data Analyst',
+    company:'Bank BCA',
+    logo:'BCA', logoBg:'#EEF4FF', logoCol:'#1A3D8F',
+    location:'Jakarta Barat', type:'Full-time', mode:'On-site',
+    category:'keuangan', exp:'1–3 Tahun',
+    salary:'Rp 7–11 jt', salaryRaw:11,
+    posted:'1 hari lalu',
+    desc:'Posisi ini bertanggung jawab menganalisis data transaksi nasabah untuk menghasilkan insight bisnis yang actionable. Kamu akan berkolaborasi erat dengan tim risiko dan produk perbankan.',
+    qual:['Sarjana Statistika, Matematika, atau Informatika','Menguasai SQL dan Python atau R','Pengalaman menggunakan Tableau atau Power BI','Teliti, analitis, dan berorientasi pada detail','Fresh graduate dipersilakan mendaftar']
+  },
+  {
+    id:4, featured:false,
+    title:'Content Writer',
+    company:'KumparanNews',
+    logo:'Km', logoBg:'#FFF4E8', logoCol:'#994D00',
+    location:'Jakarta Timur', type:'Part-time', mode:'Remote',
+    category:'marketing', exp:'Fresh Graduate',
+    salary:'Rp 3–5 jt', salaryRaw:5,
+    posted:'1 hari lalu',
+    desc:'Kami membuka posisi Content Writer paruh waktu untuk menulis artikel informatif dan engaging di platform berita digital kami. Topik meliputi teknologi, bisnis, dan gaya hidup.',
+    qual:['Lulusan Komunikasi, Jurnalistik, atau bidang terkait','Kemampuan menulis artikel yang baik dan terstruktur','Riset mandiri dan mampu memenuhi deadline','Familiar dengan SEO dasar','Portofolio tulisan menjadi nilai tambah']
+  },
+  {
+    id:5, featured:true,
+    title:'Backend Engineer (Node.js)',
+    company:'Shopee Indonesia',
+    logo:'Sh', logoBg:'#FFF0EA', logoCol:'#CC4400',
+    location:'Jakarta Selatan', type:'Full-time', mode:'Hybrid',
+    category:'teknologi', exp:'3–5 Tahun',
+    salary:'Rp 15–25 jt', salaryRaw:25,
+    posted:'3 jam lalu',
+    desc:'Kamu akan membangun dan memelihara layanan backend skala besar yang melayani puluhan juta transaksi per hari. Ini adalah kesempatan untuk bekerja dengan infrastruktur yang kompleks dan menantang.',
+    qual:['Pengalaman 3+ tahun dengan Node.js dan TypeScript','Memahami arsitektur microservices','Familiar dengan Kafka, Redis, Docker, Kubernetes','Pengalaman dengan database SQL dan NoSQL','Kemampuan problem solving yang kuat']
+  },
+  {
+    id:6, featured:false,
+    title:'Guru Matematika SMA',
+    company:'Ruangguru',
+    logo:'Rg', logoBg:'#F0EEFF', logoCol:'#4C35B0',
+    location:'Bandung', type:'Full-time', mode:'On-site',
+    category:'pendidikan', exp:'1–3 Tahun',
+    salary:'Rp 5–8 jt', salaryRaw:8,
+    posted:'2 hari lalu',
+    desc:'Bergabunglah sebagai pengajar Matematika untuk kelas 10–12 di pusat belajar kami di Bandung. Kamu akan menyiapkan materi ajar, mengajar langsung, dan membimbing siswa menuju ujian nasional.',
+    qual:['S1 Pendidikan Matematika atau Matematika Murni','Pengalaman mengajar minimal 1 tahun','Sabar, komunikatif, dan mampu menjelaskan konsep sulit dengan mudah','Menguasai kurikulum Merdeka Belajar','Sertifikasi pendidik menjadi keunggulan']
+  },
+  {
+    id:7, featured:false,
+    title:'Perawat Klinis',
+    company:'RS Siloam',
+    logo:'Sl', logoBg:'#E8F8EE', logoCol:'#0F5C35',
+    location:'Surabaya', type:'Full-time', mode:'On-site',
+    category:'kesehatan', exp:'Fresh Graduate',
+    salary:'Rp 4–7 jt', salaryRaw:7,
+    posted:'3 hari lalu',
+    desc:'RS Siloam Surabaya membuka peluang bagi perawat muda yang berdedikasi untuk bergabung di unit rawat inap kami. Kamu akan mendapat pelatihan intensif dari senior dan kesempatan pengembangan karir yang jelas.',
+    qual:['D3 atau S1 Keperawatan','Memiliki STR aktif','Bersedia bekerja shifting termasuk malam dan akhir pekan','Teliti, empati, dan tanggap dalam keadaan darurat','Fresh graduate dipersilakan']
+  },
+  {
+    id:8, featured:false,
+    title:'Legal Officer',
+    company:'Pertamina',
+    logo:'Pt', logoBg:'#FFF8E0', logoCol:'#7A5C00',
+    location:'Jakarta Pusat', type:'Full-time', mode:'On-site',
+    category:'hukum', exp:'1–3 Tahun',
+    salary:'Rp 9–14 jt', salaryRaw:14,
+    posted:'4 hari lalu',
+    desc:'Posisi ini mendukung Divisi Legal Pertamina dalam penyusunan kontrak, review dokumen hukum, dan analisis regulasi. Kamu akan bekerja dalam lingkungan korporasi yang dinamis dan penuh tantangan.',
+    qual:['S1 Hukum dari universitas terkemuka','IPK minimal 3.2','Memahami hukum kontrak dan hukum korporasi','Kemampuan riset hukum yang kuat','Pengalaman magang di firma hukum atau korporasi menjadi nilai plus']
+  },
+  {
+    id:9, featured:false,
+    title:'Social Media Specialist',
+    company:'Wardah Cosmetics',
+    logo:'Wd', logoBg:'#FFF0F5', logoCol:'#8C1A4A',
+    location:'Tangerang', type:'Full-time', mode:'Hybrid',
+    category:'marketing', exp:'1–3 Tahun',
+    salary:'Rp 5–9 jt', salaryRaw:9,
+    posted:'2 hari lalu',
+    desc:'Kami mencari kreator konten berbakat untuk mengelola akun media sosial brand kecantikan terbesar di Indonesia. Kamu akan merancang strategi konten, membuat copywriting, dan menganalisis performa kampanye.',
+    qual:['Pengalaman minimal 1 tahun di social media marketing','Memahami platform Instagram, TikTok, dan YouTube','Kemampuan copywriting yang kreatif dan engaging','Familiar dengan tools analitik sosial media','Minat pada industri kecantikan adalah nilai tambah']
+  },
+  {
+    id:10, featured:false,
+    title:'Mobile Developer (Flutter)',
+    company:'Traveloka',
+    logo:'Tv', logoBg:'#E8F0FF', logoCol:'#1A3E99',
+    location:'Jakarta Selatan', type:'Full-time', mode:'Remote',
+    category:'teknologi', exp:'3–5 Tahun',
+    salary:'Rp 13–22 jt', salaryRaw:22,
+    posted:'5 jam lalu',
+    desc:'Bergabunglah dengan tim mobile Traveloka untuk membangun aplikasi perjalanan yang digunakan oleh jutaan pengguna di Asia Tenggara. Kamu akan berkontribusi pada fitur-fitur utama seperti pemesanan, pembayaran, dan loyalty.',
+    qual:['Pengalaman 3+ tahun dengan Flutter dan Dart','Memahami state management (Bloc, Provider, Riverpod)','Berpengalaman dengan REST API dan GraphQL','Familiar dengan CI/CD untuk mobile apps','Portofolio atau aplikasi yang sudah dipublish di store']
+  },
+  {
+    id:11, featured:false,
+    title:'Aktuaris Junior',
+    company:'Prudential Indonesia',
+    logo:'Pr', logoBg:'#FFF0E8', logoCol:'#8C2800',
+    location:'Jakarta Pusat', type:'Full-time', mode:'On-site',
+    category:'keuangan', exp:'Fresh Graduate',
+    salary:'Rp 8–13 jt', salaryRaw:13,
+    posted:'1 hari lalu',
+    desc:'Prudential Indonesia membuka kesempatan bagi lulusan baru untuk memulai karir di bidang aktuaria. Kamu akan belajar langsung dari aktuaris senior dalam analisis risiko, penetapan premi, dan pelaporan keuangan.',
+    qual:['S1 Matematika, Statistika, atau Aktuaria','IPK minimal 3.3','Telah atau sedang menempuh ujian profesi aktuaria (PPMAK)','Kemampuan analitis dan kuantitatif yang kuat','Mahir menggunakan Excel dan R atau Python']
+  },
+  {
+    id:12, featured:false,
+    title:'Graphic Designer',
+    company:'Kompas Gramedia',
+    logo:'KG', logoBg:'#F5EEFF', logoCol:'#5220A8',
+    location:'Jakarta Pusat', type:'Full-time', mode:'On-site',
+    category:'desain', exp:'1–3 Tahun',
+    salary:'Rp 5–8 jt', salaryRaw:8,
+    posted:'3 hari lalu',
+    desc:'Kompas Gramedia mencari Graphic Designer untuk mendukung kebutuhan visual grup media terbesar di Indonesia. Kamu akan mengerjakan desain editorial, ilustrasi digital, dan materi promosi cetak maupun digital.',
+    qual:['S1 Desain Komunikasi Visual atau terkait','Mahir menggunakan Adobe Illustrator dan Photoshop','Portofolio desain yang beragam dan kuat','Memahami prinsip tipografi dan layout','Pengalaman desain untuk media cetak menjadi nilai plus']
+  }
+];
+
+var filteredJobs = jobs.slice();
+var currentJobId = null;
+
+function renderJobs() {
+  var list = document.getElementById('job-list');
+  var empty = document.getElementById('empty-state');
+  document.getElementById('job-count').textContent = filteredJobs.length;
+
+  if (!filteredJobs.length) {
+    list.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+
+  list.innerHTML = filteredJobs.map(function(j, i) {
+    return '<div class="job-card' + (j.featured ? ' featured' : '') + '" onclick="openJob(' + j.id + ')" style="animation-delay:' + (i * 0.04) + 's">'
+      + '<div class="card-top">'
+      + '<div class="company-logo" style="background:' + j.logoBg + ';color:' + j.logoCol + '">' + j.logo + '</div>'
+      + '<div class="card-header">'
+      + '<div class="job-title">' + j.title + '</div>'
+      + '<div class="company-name">' + j.company + ' &middot; ' + j.location + '</div>'
+      + '</div>'
+      
+      + '</div>'
+      + '<div class="card-meta">'
+      + '<span class="meta-pill">&#128205; ' + j.location + '</span>'
+      + '<span class="meta-pill">&#128188; ' + j.type + '</span>'
+      + '<span class="meta-pill">&#127968; ' + j.mode + '</span>'
+      + '<span class="meta-pill">&#127891; ' + j.exp + '</span>'
+      + '</div>'
+      + '<div class="card-footer">'
+      + '<div><div class="salary">' + j.salary + ' <span>/bulan</span></div></div>'
+      + '<div style="display:flex;align-items:center;gap:10px">'
+      + '<span class="card-time">' + j.posted + '</span>'
+      + '<button class="btn-apply" onclick="event.stopPropagation();applyDirect(' + j.id + ')">Lamar</button>'
+      + '</div></div>'
+      + '</div>';
+  }).join('');
+}
+
+function filterByTag(el, tag) {
+  document.querySelectorAll('.tag').forEach(function(t) { t.classList.remove('active'); });
+  el.classList.add('active');
+  currentTag = tag;
+  filterJobs();
+}
+
+function filterJobs() {
+  var q = document.getElementById('search-input').value.toLowerCase().trim();
+  filteredJobs = jobs.filter(function(j) {
+    var matchTag = currentTag === 'semua' || j.category === currentTag;
+    var matchQ = !q || j.title.toLowerCase().includes(q) || j.company.toLowerCase().includes(q) || j.location.toLowerCase().includes(q);
+    return matchTag && matchQ;
+  });
+  renderJobs();
+}
+
+function sortJobs(val) {
+  if (val === 'gaji') filteredJobs.sort(function(a,b){return b.salaryRaw-a.salaryRaw});
+  else if (val === 'nama') filteredJobs.sort(function(a,b){return a.title.localeCompare(b.title)});
+  else filteredJobs.sort(function(a,b){return a.id-b.id});
+  renderJobs();
+}
+
+function resetFilters() {
+  document.querySelectorAll('.sf-option input').forEach(function(c){c.checked=false});
+  document.getElementById('search-input').value = '';
+  currentTag = 'semua';
+  document.querySelectorAll('.tag').forEach(function(t,i){t.classList.toggle('active',i===0)});
+  filteredJobs = jobs.slice();
+  renderJobs();
+}
+
+function openJob(id) {
+  var j = jobs.find(function(x){return x.id===id});
+  if(!j) return;
+  currentJobId = id;
+  var ml = document.getElementById('modal-logo');
+  ml.textContent = j.logo;
+  ml.style.background = j.logoBg;
+  ml.style.color = j.logoCol;
+  document.getElementById('modal-title').textContent = j.title;
+  document.getElementById('modal-company').textContent = j.company + ' · ' + j.location;
+  document.getElementById('modal-meta').innerHTML =
+    '<span class="meta-pill">&#128188; ' + j.type + '</span>'
+    + '<span class="meta-pill">&#127968; ' + j.mode + '</span>'
+    + '<span class="meta-pill">&#127891; ' + j.exp + '</span>'
+    + '<span class="meta-pill" style="font-weight:500;color:var(--accent);background:var(--accent-soft)">&#128181; ' + j.salary + '/bln</span>';
+  document.getElementById('modal-desc').textContent = j.desc;
+  document.getElementById('modal-qual').innerHTML = j.qual.map(function(q){return '<li>'+q+'</li>'}).join('');
+  document.getElementById('overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(e) {
+  if(e.target === document.getElementById('overlay')) closeModalDirect();
+}
+
+function closeModalDirect() {
+  document.getElementById('overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function applyJob() {
+  closeModalDirect();
+  openApplyPage(currentJobId);
+}
+
+function applyDirect(id) {
+  openApplyPage(id);
+}
+
+function openApplyPage(id) {
+  var j = jobs.find(function(x){return x.id===id});
+  if(!j) return;
+  // Set header
+  var logoEl = document.getElementById('apply-logo-el');
+  logoEl.textContent = j.logo;
+  logoEl.style.background = j.logoBg;
+  logoEl.style.color = j.logoCol;
+  document.getElementById('apply-job-title-el').textContent = j.title;
+  document.getElementById('apply-company-el').textContent = j.company + ' · ' + j.location;
+  // Reset to step 1
+  applyNextStep(1, true);
+  showPage('apply');
+}
+
+var currentApplyStep = 1;
+
+function applyNextStep(step, reset) {
+  for(var i=1;i<=4;i++){
+    var el = document.getElementById('apply-step-'+i);
+    if(el) el.style.display = (i===step)?'block':'none';
+  }
+  // Update progress
+  for(var s=1;s<=4;s++){
+    var prog = document.getElementById('prog'+s);
+    if(!prog) continue;
+    prog.className = 'prog-step';
+    if(s < step) prog.classList.add('done');
+    else if(s === step) prog.classList.add('active');
+    var dot = prog.querySelector('.prog-dot');
+    if(dot) dot.innerHTML = s < step ? '&#10003;' : s;
+    var line = document.getElementById('pline'+s);
+    if(line) line.className = 'prog-line' + (s < step ? ' done' : '');
+  }
+  currentApplyStep = step;
+  if(step===4) buildReview();
+  window.scrollTo(0,0);
+}
+
+function buildReview(){
+  var name = document.getElementById('ap-name').value || '-';
+  var email = document.getElementById('ap-email').value || '-';
+  var phone = document.getElementById('ap-phone').value || '-';
+  var city = document.getElementById('ap-city').value || '-';
+  var edu = document.getElementById('ap-edu').value || '-';
+  var exp = document.getElementById('ap-exp').value || '-';
+  var salary = document.getElementById('ap-salary').value || '-';
+  var start = document.getElementById('ap-start').value || '-';
+  var skills = document.getElementById('ap-skills').value || '-';
+  var items = [
+    ['Nama','ap-name',name],['Email','ap-email',email],['Nomor HP','ap-phone',phone],
+    ['Domisili','ap-city',city],['Pendidikan','ap-edu',edu],['Pengalaman','ap-exp',exp],
+    ['Ekspektasi Gaji','ap-salary',salary],['Mulai Bekerja','ap-start',start],['Skill','ap-skills',skills]
+  ];
+  document.getElementById('apply-review-content').innerHTML = items.map(function(it){
+    return '<div class="cp-info-item"><span class="cp-info-label">'+it[0]+'</span><span class="cp-info-val">'+it[2]+'</span></div>';
+  }).join('');
+}
+
+function fakeUpload(type){
+  if(type==='cv'){
+    document.getElementById('cv-label').textContent = '✅ CV berhasil diupload (curriculum_vitae.pdf)';
+  } else {
+    document.getElementById('letter-label').textContent = '✅ Surat lamaran berhasil diupload (cover_letter.pdf)';
+  }
+}
+
+function submitApplication() {
+  var formData = new FormData();
+  formData.append('lowongan_id', currentJobId || 0);
+  formData.append('nama',        document.getElementById('ap-name').value);
+  formData.append('email',       document.getElementById('ap-email').value);
+  formData.append('no_hp',       document.getElementById('ap-phone').value);
+  formData.append('kota',        document.getElementById('ap-city').value);
+  formData.append('pendidikan',  document.getElementById('ap-edu').value);
+  formData.append('pengalaman',  document.getElementById('ap-exp').value);
+  formData.append('gaji',        document.getElementById('ap-salary').value);
+  formData.append('cover_letter',document.getElementById('ap-coverletter').value);
+
+  fetch('lamar.php', { method: 'POST', body: formData })
+    .then(res => res.json())
+    .then(data => {
+      if (data.status === 'ok') {
+        showPage('home');
+        showToast('🎉 Lamaranmu berhasil dikirim!');
+      } else if (data.status === 'login') {
+        showPage('login');
+        showToast('Kamu harus login dulu untuk melamar!');
+      } else {
+        showToast(data.pesan);
+      }
+    })
+    .catch(() => showToast('Gagal terhubung ke server!'));
+}
+
+function saveJob() {
+  showToast('Lowongan disimpan ke daftar pantaumu.');
+}
+
+function showToast(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(function(){t.classList.remove('show')}, 3000);
+}
+
+document.addEventListener('keydown', function(e){
+  if(e.key==='Escape') closeModalDirect();
+});
+
+renderJobs();
+
+// --- AUTH & PAGE ROUTING ---
+var loggedInUser = null;
+
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('active'); });
+  var el = document.getElementById('page-' + name);
+  if(el) el.classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function doLogin() {
+  var email = document.getElementById('login-email').value.trim();
+  var pass  = document.getElementById('login-pass').value;
+  if (!email || !pass) { showToast('Email dan password wajib diisi!'); return; }
+
+  var formData = new FormData();
+  formData.append('email', email);
+  formData.append('password', pass);
+
+  fetch('login.php', { method: 'POST', body: formData })
+    .then(res => res.json())
+    .then(data => {
+      if (data.status === 'ok') {
+        loginSuccess(data.nama);
+      } else {
+        showToast(data.pesan);
+      }
+    })
+    .catch(() => showToast('Gagal terhubung ke server!'));
+}
+
+function doSignup() {
+  var fname = document.getElementById('signup-fname').value.trim();
+  var lname = document.getElementById('signup-lname').value.trim();
+  var email = document.getElementById('signup-email').value.trim();
+  var pass  = document.getElementById('signup-pass').value;
+  var pass2 = document.getElementById('signup-pass2').value;
+
+  if (!fname || !email || !pass || !pass2) { showToast('Semua field wajib diisi!'); return; }
+  if (!email.includes('@')) { showToast('Format email tidak valid!'); return; }
+  if (pass.length < 8) { showToast('Password minimal 8 karakter!'); return; }
+  if (pass !== pass2) { showToast('Password tidak cocok!'); return; }
+
+  var formData = new FormData();
+  formData.append('nama', fname + (lname ? ' ' + lname : ''));
+  formData.append('email', email);
+  formData.append('password', pass);
+
+  fetch('register.php', { method: 'POST', body: formData })
+    .then(res => res.json())
+    .then(data => {
+      if (data.status === 'ok') {
+        showToast('Registrasi berhasil! Silakan login.');
+        showPage('login');
+      } else {
+        showToast(data.pesan);
+      }
+    })
+    .catch(() => showToast('Gagal terhubung ke server!'));
+}
+
+function doGoogleAuth() {
+  loginSuccess('Pengguna Google');
+}
+
+function loginSuccess(name) {
+  loggedInUser = name;
+  // Update navbar
+  document.getElementById('nav-auth-btns').style.display = 'none';
+  var badge = document.getElementById('nav-user-badge');
+  badge.style.display = 'list-item';
+  document.getElementById('nav-username').textContent = name;
+  var initials = name.split(' ').slice(0,2).map(function(w){return w[0]}).join('').toUpperCase();
+  document.getElementById('nav-avatar').textContent = initials;
+  showPage('home');
+  showToast('Halo, ' + name + '! Selamat datang di Workaholic 👋');
+}
+
+function doLogout() {
+  fetch('logout.php')
+    .then(() => {
+      loggedInUser = null;
+      document.getElementById('nav-auth-btns').style.display = 'flex';
+      document.getElementById('nav-user-badge').style.display = 'none';
+      showPage('home');
+      showToast('Kamu telah keluar. Sampai jumpa!');
+    });
+}
+
+</script>
+</div></div><!-- end home-left --></div><!-- end home-layout -->
+</div><!-- end page-home -->
+
+<!-- LOGIN PAGE -->
+<div id="page-login" class="page">
+<div class="auth-wrap">
+  <div class="auth-box">
+    <div class="auth-logo" onclick="showPage('home')">Workaholic<span>.</span></div>
+    <h2 class="auth-title">Selamat datang kembali</h2>
+    <p class="auth-sub">Belum punya akun? <a onclick="showPage('signup')">Daftar sekarang</a></p>
+
+    <div class="auth-field">
+      <label class="auth-label">Email</label>
+      <input class="auth-input" type="email" id="login-email" placeholder="kamu@email.com">
+    </div>
+    <div class="auth-field">
+      <label class="auth-label">Password</label>
+      <input class="auth-input" type="password" id="login-pass" placeholder="Masukkan password">
+    </div>
+    <div class="auth-row">
+      <label class="auth-check">
+        <input type="checkbox"> Ingat saya
+      </label>
+      <a class="auth-forgot">Lupa password?</a>
+    </div>
+
+    <button class="btn-auth" onclick="doLogin()">Masuk</button>
+
+    <div class="auth-divider">atau</div>
+
+    <button class="btn-google" onclick="doGoogleAuth()">
+      <span class="google-icon"></span>
+      Masuk dengan Google
+    </button>
+
+    <div class="auth-switch">
+      Belum punya akun? <a onclick="showPage('signup')">Daftar gratis</a>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- SIGN UP PAGE -->
+<div id="page-signup" class="page">
+<div class="auth-wrap">
+  <div class="auth-box">
+    <div class="auth-logo" onclick="showPage('home')">Workaholic<span>.</span></div>
+    <h2 class="auth-title">Buat akun baru</h2>
+    <p class="auth-sub">Sudah punya akun? <a onclick="showPage('login')">Masuk di sini</a></p>
+
+    <div class="field-row">
+      <div class="auth-field">
+        <label class="auth-label">Nama Depan</label>
+        <input class="auth-input" type="text" id="signup-fname" placeholder="Budi">
+      </div>
+      <div class="auth-field">
+        <label class="auth-label">Nama Belakang</label>
+        <input class="auth-input" type="text" id="signup-lname" placeholder="Santoso">
+      </div>
+    </div>
+    <div class="auth-field">
+      <label class="auth-label">Email</label>
+      <input class="auth-input" type="email" id="signup-email" placeholder="kamu@email.com">
+    </div>
+    <div class="auth-field">
+      <label class="auth-label">Password</label>
+      <input class="auth-input" type="password" id="signup-pass" placeholder="Minimal 8 karakter">
+    </div>
+    <div class="auth-field" style="margin-bottom:20px">
+      <label class="auth-label">Konfirmasi Password</label>
+      <input class="auth-input" type="password" id="signup-pass2" placeholder="Ulangi password">
+    </div>
+
+    <p class="auth-terms">
+      Dengan mendaftar, kamu menyetujui ketentuan Workaholic.
+    </p>
+
+    <button class="btn-auth" onclick="doSignup()">Buat Akun</button>
+
+    <div class="auth-divider">atau</div>
+
+    <button class="btn-google" onclick="doGoogleAuth()">
+      <span class="google-icon"></span>
+      Daftar dengan Google
+    </button>
+
+    <div class="auth-switch">
+      Sudah punya akun? <a onclick="showPage('login')">Masuk</a>
+    </div>
+  </div>
+</div>
+</div>
+
+
+<!-- APPLY PAGE -->
+<div id="page-apply" class="page">
+<div class="apply-wrap">
+  <div class="apply-header">
+    <div class="apply-company-logo" id="apply-logo-el"></div>
+    <div>
+      <div class="apply-job-title" id="apply-job-title-el">Frontend Developer</div>
+      <div class="apply-company-name" id="apply-company-el">Tokopedia · Jakarta Selatan</div>
+    </div>
+  </div>
+
+  <div class="apply-progress">
+    <div class="prog-step done" id="prog1">
+      <div class="prog-dot">&#10003;</div>
+      <span>Info Pribadi</span>
+    </div>
+    <div class="prog-line done" id="pline1"></div>
+    <div class="prog-step active" id="prog2">
+      <div class="prog-dot">2</div>
+      <span>Dokumen</span>
+    </div>
+    <div class="prog-line" id="pline2"></div>
+    <div class="prog-step" id="prog3">
+      <div class="prog-dot">3</div>
+      <span>Pertanyaan</span>
+    </div>
+    <div class="prog-line" id="pline3"></div>
+    <div class="prog-step" id="prog4">
+      <div class="prog-dot">4</div>
+      <span>Review</span>
+    </div>
+  </div>
+
+  <!-- Step 1: Info Pribadi -->
+   <form action="submit_application.php" method="POST">
+  <div id="apply-step-1">
+    <div class="apply-section">
+      <div class="apply-section-title">Informasi Pribadi</div>
+      <div class="apply-two-col">
+        <div class="apply-field">
+          <label class="apply-label">Nama Lengkap *</label>
+          <input class="apply-input" type="text" id="ap-name" placeholder="Nama lengkap sesuai KTP">
+        </div>
+        <div class="apply-field">
+          <label class="apply-label">Email *</label>
+          <input class="apply-input" type="email" id="ap-email" placeholder="email@kamu.com">
+        </div>
+      </div>
+      <div class="apply-two-col">
+        <div class="apply-field">
+          <label class="apply-label">Nomor HP *</label>
+          <input class="apply-input" type="tel" id="ap-phone" placeholder="08xx-xxxx-xxxx">
+        </div>
+        <div class="apply-field">
+          <label class="apply-label">Kota *</label>
+          <input class="apply-input" type="text" id="ap-city" placeholder="contoh: Semarang">
+        </div>
+      </div>
+      <div class="apply-field">
+        <label class="apply-label">LinkedIn (opsional)</label>
+        <input class="apply-input" type="url" id="ap-linkedin" placeholder="https://linkedin.com/in/namakamu">
+      </div>
+      <div class="apply-field">
+        <label class="apply-label">Portfolio / Website (opsional)</label>
+        <input class="apply-input" type="url" id="ap-portfolio" placeholder="https://portfoliokamu.com">
+      </div>
+    </div>
+
+    <div class="apply-section">
+      <div class="apply-section-title">Pengalaman & Pendidikan</div>
+      <div class="apply-two-col">
+        <div class="apply-field">
+          <label class="apply-label">Pendidikan Terakhir *</label>
+          <select class="apply-select" id="ap-edu">
+            <option value="">Pilih pendidikan</option>
+            <option>SMA / SMK</option>
+            <option>D3</option>
+            <option>S1</option>
+            <option>S2</option>
+            <option>S3</option>
+          </select>
+        </div>
+        <div class="apply-field">
+          <label class="apply-label">Pengalaman Kerja *</label>
+          <select class="apply-select" id="ap-exp">
+            <option value="">Pilih pengalaman</option>
+            <option>Fresh Graduate</option>
+            <option>Kurang dari 1 tahun</option>
+            <option>1 – 3 tahun</option>
+            <option>3 – 5 tahun</option>
+            <option>Lebih dari 5 tahun</option>
+          </select>
+        </div>
+      </div>
+      <div class="apply-field">
+        <label class="apply-label">Ekspektasi Gaji (per bulan) *</label>
+        <input class="apply-input" type="text" id="ap-salary" placeholder="contoh: Rp 8.000.000">
+      </div>
+      <div class="apply-field">
+        <label class="apply-label">Kapan bisa mulai bekerja? *</label>
+        <select class="apply-select" id="ap-start">
+          <option value="">Pilih waktu</option>
+          <option>Segera (dalam 2 minggu)</option>
+          <option>1 bulan lagi</option>
+          <option>2 bulan lagi</option>
+          <option>Lebih dari 2 bulan</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="apply-footer">
+      <button class="btn-back-apply" onclick="showPage('home')">&#8592; Kembali</button>
+      <button class="btn-submit-apply" onclick="applyNextStep(2)">Lanjut &rarr;</button>
+    </div>
+  </div>
+  </form>
+
+  <!-- Step 2: Dokumen -->
+  <div id="apply-step-2" style="display:none">
+    <div class="apply-section">
+      <div class="apply-section-title">Upload CV / Resume *</div>
+      <div class="upload-area" onclick="fakeUpload('cv')">
+        <div class="upload-icon">📄</div>
+        <div class="upload-label" id="cv-label">Klik untuk upload CV</div>
+        <div class="upload-hint">PDF, DOC, atau DOCX — maks. 5 MB</div>
+      </div>
+    </div>
+    <div class="apply-section">
+      <div class="apply-section-title">Surat Lamaran (opsional)</div>
+      <div class="upload-area" onclick="fakeUpload('letter')">
+        <div class="upload-icon">✉️</div>
+        <div class="upload-label" id="letter-label">Klik untuk upload surat lamaran</div>
+        <div class="upload-hint">PDF atau DOC — maks. 5 MB</div>
+      </div>
+    </div>
+    <div class="apply-section">
+      <div class="apply-section-title">Atau tulis surat lamaran langsung</div>
+      <div class="apply-field">
+        <label class="apply-label">Surat Lamaran</label>
+        <textarea class="apply-textarea" id="ap-coverletter" placeholder="Perkenalkan diri kamu dan jelaskan mengapa kamu tertarik dengan posisi ini..."></textarea>
+      </div>
+    </div>
+    <div class="apply-footer">
+      <button class="btn-back-apply" onclick="applyNextStep(1)">&#8592; Kembali</button>
+      <button class="btn-submit-apply" onclick="applyNextStep(3)">Lanjut &rarr;</button>
+    </div>
+  </div>
+
+  <!-- Step 3: Pertanyaan Tambahan -->
+  <div id="apply-step-3" style="display:none">
+    <div class="apply-section">
+      <div class="apply-section-title">Pertanyaan dari Rekruter</div>
+      <div class="apply-field">
+        <label class="apply-label">Mengapa kamu tertarik dengan posisi ini? *</label>
+        <textarea class="apply-textarea" id="ap-q1" placeholder="Ceritakan motivasi kamu melamar posisi ini..."></textarea>
+      </div>
+      <div class="apply-field">
+        <label class="apply-label">Apa pencapaian terbesar kamu di pekerjaan/proyek sebelumnya? *</label>
+        <textarea class="apply-textarea" id="ap-q2" placeholder="Jelaskan secara spesifik dengan angka atau hasil yang bisa diukur..."></textarea>
+      </div>
+      <div class="apply-field">
+        <label class="apply-label">Skill utama yang relevan dengan posisi ini *</label>
+        <input class="apply-input" type="text" id="ap-skills" placeholder="contoh: React, Node.js, Figma, SQL...">
+      </div>
+      <div class="apply-field">
+        <label class="apply-label">Apakah kamu bersedia relokasi jika dibutuhkan?</label>
+        <select class="apply-select" id="ap-relocate">
+          <option value="">Pilih jawaban</option>
+          <option>Ya, bersedia</option>
+          <option>Tidak bersedia</option>
+          <option>Bisa didiskusikan</option>
+        </select>
+      </div>
+    </div>
+    <div class="apply-footer">
+      <button class="btn-back-apply" onclick="applyNextStep(2)">&#8592; Kembali</button>
+      <button class="btn-submit-apply" onclick="applyNextStep(4)">Lanjut &rarr;</button>
+    </div>
+  </div>
+
+  <!-- Step 4: Review -->
+  <div id="apply-step-4" style="display:none">
+    <div class="apply-section">
+      <div class="apply-section-title">Review Lamaran</div>
+      <div class="cp-info-list" id="apply-review-content"></div>
+    </div>
+    <div class="apply-section" style="background:var(--accent-light);border-color:var(--accent-soft)">
+      <div style="display:flex;gap:12px;align-items:flex-start">
+        <div style="font-size:22px;flex-shrink:0">✅</div>
+        <div>
+          <div style="font-weight:500;color:var(--ink);margin-bottom:4px;font-size:14px">Lamaranmu siap dikirim!</div>
+          <div style="font-size:13px;color:var(--ink-soft);line-height:1.6">Dengan mengirim lamaran ini, kamu menyetujui bahwa data yang kamu berikan adalah benar dan dapat digunakan oleh rekruter untuk keperluan rekrutmen.</div>
+        </div>
+      </div>
+    </div>
+    <div class="apply-footer">
+      <button class="btn-back-apply" onclick="applyNextStep(3)">&#8592; Edit</button>
+      <button class="btn-submit-apply" onclick="submitApplication()" style="background:var(--accent);padding:12px 32px">Kirim Lamaran 🚀</button>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- COMPANIES PAGE -->
+<div id="page-companies" class="page">
+<div class="companies-wrap">
+  <div class="companies-hero">
+    <div class="hero-kicker">850+ Perusahaan</div>
+    <h2>Kenali perusahaan <em style="font-style:italic;color:var(--accent)">impianmu</em></h2>
+    <p>Pelajari latar belakang, budaya, dan lowongan tersedia dari ratusan perusahaan terpercaya.</p>
+  </div>
+  <div class="companies-grid" id="companies-grid"></div>
+</div>
+</div>
+
+<!-- COMPANY PROFILE PAGE -->
+<div id="page-company-profile" class="page">
+<div class="cp-wrap" id="cp-wrap"></div>
+</div>
+
+<!-- MARQUEE -->
+<div class="marquee-section" id="global-marquee">
+  <div class="marquee-track">
+    <div class="marquee-item"><div class="marquee-dot"></div>Frontend Developer</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>UI/UX Designer</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Data Scientist</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Backend Engineer</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Product Manager</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>DevOps Engineer</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Marketing Specialist</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Graphic Designer</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Data Analyst</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Content Writer</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Mobile Developer</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>HR Specialist</div>
+    <!-- duplicate for seamless loop -->
+    <div class="marquee-item"><div class="marquee-dot"></div>Frontend Developer</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>UI/UX Designer</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Data Scientist</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Backend Engineer</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Product Manager</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>DevOps Engineer</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Marketing Specialist</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Graphic Designer</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Data Analyst</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Content Writer</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>Mobile Developer</div>
+    <div class="marquee-item"><div class="marquee-dot"></div>HR Specialist</div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer" id="global-footer">
+
+  <!-- CTA Banner -->
+  <div class="footer-cta">
+    <div class="footer-cta-left">
+      <h3>Belum juga dapat pekerjaan? 🤝</h3>
+      <p>Tim konsultan karir kami siap membantumu — mulai dari review CV, persiapan interview, hingga mencarikan lowongan yang paling sesuai dengan profilmu.</p>
+    </div>
+    <div class="footer-cta-right">
+      <button class="btn-cta-white" onclick="showToast('Tim kami akan menghubungimu segera! 📞')">Hubungi Kami</button>
+      <button class="btn-cta-outline" onclick="showPage('signup')">Daftar Gratis</button>
+    </div>
+  </div>
+
+  <!-- Main Footer -->
+  <div class="footer-main">
+
+    <!-- Brand Column -->
+    <div class="footer-brand">
+      <span class="footer-logo">Workaholic<span>.</span></span>
+      <p class="footer-desc">Platform pencarian kerja terpercaya di Indonesia. Menghubungkan talenta terbaik dengan perusahaan impian sejak 2024.</p>
+
+
+      <div class="footer-address">
+        <strong>Kantor Pusat</strong>
+        Gedung Workaholic Tower, Lantai 12<br>
+        Jl. Jenderal Sudirman Kav. 52–53<br>
+        Jakarta Selatan, DKI Jakarta 12190<br>
+        Indonesia
+      </div>
+    </div>
+
+    <!-- Cari Kerja -->
+    <div>
+      <div class="footer-col-title">Cari Kerja</div>
+      <ul class="footer-links">
+        <li><a onclick="showPage('home')">Semua Lowongan</a></li>
+        <li><a onclick="showPage('home')">Teknologi</a></li>
+        <li><a onclick="showPage('home')">Desain</a></li>
+        <li><a onclick="showPage('home')">Keuangan</a></li>
+        <li><a onclick="showPage('home')">Marketing</a></li>
+        <li><a onclick="showPage('home')">Pendidikan</a></li>
+        <li><a onclick="showPage('home')">Kesehatan</a></li>
+      </ul>
+    </div>
+
+    <!-- Perusahaan -->
+    <div>
+      <div class="footer-col-title">Perusahaan</div>
+      <ul class="footer-links">
+        <li><a onclick="showPage('companies')">Daftar Perusahaan</a></li>
+        <li><a onclick="showPage('home')">Cari Lowongan</a></li>
+        <li><a onclick="showPage('login')">Masuk / Daftar</a></li>
+      </ul>
+
+      <div style="height:20px"></div>
+      <div class="footer-col-title">Workaholic</div>
+      <ul class="footer-links">
+        <li><a onclick="showToast('Halaman segera hadir!')">Tentang Kami</a></li>
+      </ul>
+    </div>
+
+    <!-- Customer Service -->
+    <div>
+      <div class="footer-col-title">Butuh Bantuan?</div>
+      <div class="footer-cs">
+        <div class="footer-cs-title">Customer Service</div>
+
+
+        <div class="cs-item">
+          <div class="cs-icon">💬</div>
+          <div>
+            <div class="cs-label">WhatsApp</div>
+            <div class="cs-val">+62 812-3456-7890</div>
+          </div>
+        </div>
+
+        <div class="cs-item">
+          <div class="cs-icon">📧</div>
+          <div>
+            <div class="cs-label">Email</div>
+            <div class="cs-val">cs@workaholic.id</div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Bottom Bar -->
+  <div class="footer-bottom">
+    <div class="footer-bottom-left">
+      © 2024 Workaholic Indonesia. Hak cipta dilindungi.
+    </div>
+
+  </div>
+
+</footer>
+
+</body>
+</html>
